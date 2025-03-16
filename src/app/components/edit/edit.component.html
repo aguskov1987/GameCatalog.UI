@@ -1,0 +1,123 @@
+<div class="game-container">
+  <div class="game-image">
+    @if (game.imageFileName) {
+      <img [src]="apiUri + '/game-image/' + game.imageFileName" alt="Game Image" width="300"/>
+    } @else {
+      <img src="no-image.png" alt="No Image" width="200"/>
+    }
+
+    <div>New game image:</div>
+    <input type="file" class="form-control" accept="image/*" (change)="onFileSelected($event)">
+  </div>
+
+  <div class="game-data">
+    <form [formGroup]="gameForm">
+      <div class="container mt-3">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input id="title" type="text" class="form-control" formControlName="title" required />
+          @if (gameForm.controls['title'].invalid && gameForm.controls['title'].touched) {
+            <div class="error">Title is required and must be less than 100 characters</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea id="description" class="form-control" rows="3" formControlName="description"></textarea>
+          @if (gameForm.controls['description'].invalid && gameForm.controls['description'].touched) {
+            <div class="error">Description must be less than 500 characters</div>
+          }
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="genre" class="form-label">Genre</label>
+              <select id="genre" class="form-select" formControlName="genre">
+                @for (g of genres; track g) {
+                  <option value="{{ g }}">{{ getGenreLabel(g) }}</option>
+                }
+              </select>
+              @if (gameForm.controls['genre'].invalid && gameForm.controls['genre'].touched) {
+                <div class="error">Genre is required</div>
+              }
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="platform" class="form-label">Platform</label>
+              <select id="platform" class="form-select" formControlName="platform">
+                @for (p of platforms; track p) {
+                  <option value="{{ p }}">{{ getPlatformLabel(p) }}</option>
+                }
+              </select>
+              @if (gameForm.controls['platform'].invalid && gameForm.controls['platform'].touched) {
+                <div class="error">Platform is required</div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="publisher" class="form-label">Publisher</label>
+              <input id="publisher" type="text" class="form-control" formControlName="publisher" />
+              @if (gameForm.controls['publisher'].invalid && gameForm.controls['publisher'].touched) {
+                <div class="error">Publisher must be less than 100 characters</div>
+              }
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="developer" class="form-label">Developer</label>
+              <input id="developer" type="text" class="form-control" formControlName="developer" />
+              @if (gameForm.controls['developer'].invalid && gameForm.controls['developer'].touched) {
+                <div class="error">Developer must be less than 100 characters</div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="releaseYear" class="form-label">Release Year</label>
+              <input id="releaseYear" type="number" class="form-control" formControlName="releaseYear" />
+              @if (gameForm.controls['releaseYear'].invalid && gameForm.controls['releaseYear'].touched) {
+                <div class="error">Release year must be between 1950 and the current year </div>
+              }
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="price" class="form-label">Price ($)</label>
+              <input id="price" type="number" class="form-control" formControlName="price" step="0.01" />
+              @if (gameForm.controls['price'].invalid && gameForm.controls['price'].touched) {
+                <div class="error">Price must be positive </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="status" class="form-label">Status</label>
+          <select id="status" class="form-select" formControlName="status">
+            @for (s of statuses; track s) {
+              <option value="{{ s }}">{{ getStatusLabel(s) }}</option>
+            }
+          </select>
+          @if (gameForm.controls['status'].invalid && gameForm.controls['status'].touched) {
+            <div class="error">Status is required </div>
+          }
+        </div>
+      </div>
+
+      <div class="container mt-3">
+        <button type="button" class="btn btn-primary" (click)="saveGame()">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="goBack()">Back to list</button>
+      </div>
+    </form>
+
+  </div>
+</div>

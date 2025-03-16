@@ -1,0 +1,29 @@
+<div class="container mt-4">
+  <button class="btn btn-primary mb-3" (click)="addNewGame()">Add New Game</button>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <!-- Add game properties as needed -->
+        <th scope="col">Image</th>
+        <th scope="col">Title</th>
+        <th scope="col">Price</th>
+        <th scope="col">Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (game of games; track game.id) {
+        <tr>
+          <td><img [src]="apiUri + '/game-image/' + game.imageFileName" alt="Game Image" width="50"></td>
+          <td>{{ game.title }}</td>
+          <td>{{ game.price | currency }}</td>
+          <td>
+            <button class="btn btn-warning btn-sm" (click)="editGame(game)">
+              Edit
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
